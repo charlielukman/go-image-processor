@@ -2,10 +2,8 @@ package server
 
 import (
 	"archive/zip"
-	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -20,24 +18,11 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	r.Get("/", s.HelloWorldHandler)
 	r.Post("/images/convert-to-jpeg", s.ConvertToJPEGHandler)
 	r.Post("/images/resize", s.ResizeImageHandler)
 	r.Post("/images/compress", s.CompressImageHandler)
 
 	return r
-}
-
-func (s *Server) HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
-	resp := make(map[string]string)
-	resp["message"] = "Hello World"
-
-	jsonResp, err := json.Marshal(resp)
-	if err != nil {
-		log.Fatalf("error handling JSON marshal. Err: %v", err)
-	}
-
-	_, _ = w.Write(jsonResp)
 }
 
 func (s *Server) ConvertToJPEGHandler(w http.ResponseWriter, r *http.Request) {
