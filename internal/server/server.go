@@ -7,17 +7,21 @@ import (
 	"strconv"
 	"time"
 
+	imageprocessor "go-image-processor/internal/image-processor"
+
 	_ "github.com/joho/godotenv/autoload"
 )
 
 type Server struct {
-	port int
+	port           int
+	ImageProcessor imageprocessor.ImageProcessor
 }
 
-func NewServer() *http.Server {
+func NewServer(imageProcessor imageprocessor.ImageProcessor) *http.Server {
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
 	NewServer := &Server{
-		port: port,
+		port:           port,
+		ImageProcessor: imageProcessor,
 	}
 
 	// Declare Server config
